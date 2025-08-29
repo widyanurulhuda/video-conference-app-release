@@ -114,16 +114,21 @@ jobs:
         working-directory: video-conference-using-fisheye
           
       - name: Generate changelog (robust)
+        id: changelog
         shell: bash
         run: |
           set -euo pipefail
-          echo "log<<EOF" >> "$GITHUB_OUTPUT"
+      
+          # Generate the changelog using git log
           if [ -n "${{ steps.previoustag.outputs.tag }}" ]; then
-            git log ${{ steps.previoustag.outputs.tag }}..HEAD --pretty=format:"- %s (%h)"
+            log_output=$(git log ${{ steps.previoustag.outputs.tag }}..HEAD --pretty=format:"- %s (%h)")
           else
-            git log --pretty=format:"- %s (%h)"
-          fi >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
+            log_output=$(git log --pretty=format:"- %s (%h)")
+          fi
+      
+          # Output the changelog to GITHUB_OUTPUT
+          echo "log=$log_output" >> "$GITHUB_OUTPUT"
+
         working-directory: video-conference-using-fisheye
         
       - name: Upload Windows Artifact to GitHub Release
