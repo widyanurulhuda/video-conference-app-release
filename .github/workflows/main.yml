@@ -60,7 +60,9 @@ jobs:
 
       - name: Replace version placeholder in ISS file
         shell: bash
-        run: sed -i "s/__VERSION__/${{ env.TAG_NAME }}/g" dist/setup_script.iss
+        run: 
+          cd video-conference-using-fisheye
+          sed -i "s/__VERSION__/${{ env.TAG_NAME }}/g" dist/setup_script.iss
 
       - name: Install dependencies
         shell: bash
