@@ -118,13 +118,19 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-      
+          
           # Generate the changelog using git log
           if [ -n "${{ steps.previoustag.outputs.tag }}" ]; then
             log_output=$(git log ${{ steps.previoustag.outputs.tag }}..HEAD --pretty=format:"- %s (%h)")
           else
             log_output=$(git log --pretty=format:"- %s (%h)")
           fi
+      
+          # Replace newlines with spaces or another delimiter to format as a single string
+          log_output=$(echo "$log_output" | tr '\n' ' ')
+
+          # Ensure there is no leading/trailing space
+          log_output=$(echo "$log_output" | xargs)
       
           # Output the changelog to GITHUB_OUTPUT
           echo "log=$log_output" >> "$GITHUB_OUTPUT"
