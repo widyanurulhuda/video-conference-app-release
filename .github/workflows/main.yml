@@ -172,7 +172,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.9.13'
-        working-directory: video-conference-using-fisheye
         
       - name: Update version.txt
         shell: bash
