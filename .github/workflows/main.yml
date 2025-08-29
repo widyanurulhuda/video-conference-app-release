@@ -60,8 +60,17 @@ jobs:
 
       - name: Replace version placeholder in ISS file
         shell: bash
-        run: 
+        run: |
+          # Ensure we are in the right directory
           cd video-conference-using-fisheye
+          
+          # Verify the dist directory and setup_script.iss file exist before replacing version
+          if [ ! -f "dist/setup_script.iss" ]; then
+            echo "setup_script.iss not found in dist/"
+            exit 1
+          fi
+
+          # Replace version placeholder in setup_script.iss with the correct TAG_NAME
           sed -i "s/__VERSION__/${{ env.TAG_NAME }}/g" dist/setup_script.iss
 
       - name: Install dependencies
