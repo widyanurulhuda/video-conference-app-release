@@ -49,9 +49,14 @@ jobs:
         shell: bash
         run: echo "${{ env.TAG_NAME }}" > version.txt
 
-      - name: Replace version placeholder in ISS file
-        shell: bash
-        run: sed -i "s/__VERSION__/${{ env.TAG_NAME }}/g" dist/setup_script.iss
+      - name: Verify dist directory and setup_script.iss
+        run: |
+          echo "Checking dist directory..."
+          ls -R dist
+          if [ ! -f "dist/setup_script.iss" ]; then
+            echo "setup_script.iss not found!"
+            exit 1
+          fi
 
       - name: Install dependencies
         shell: bash
