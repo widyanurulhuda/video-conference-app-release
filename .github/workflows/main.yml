@@ -98,23 +98,22 @@ jobs:
         run: 
           iscc dist\setup_script.iss
         working-directory: video-conference-using-fisheye
-        
-      - name: Generate changelog (robust)
+
+      - name: Get previous tag (robust)
+        id: previoustag
         shell: bash
         run: |
           set -euo pipefail
-          echo "log<<EOF" >> "$GITHUB_OUTPUT"
-          if [ -n "${{ steps.previoustag.outputs.tag }}" ]; then
-            git log ${{ steps.previoustag.outputs.tag }}..HEAD --pretty=format:"- %s (%h)"
-          else
-            git log --pretty=format:"- %s (%h)"
-          fi >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
-        working-directory: video-conference-using-fisheye
-        
+          if git describe --tags --abbrev=0 HEAD^ >/dev/null 2>&1; then
+            prev=$(git describe --tags --abbrev=0 HEAD^)
 
+          else
+            prev=""
+          fi
+          echo "tag=$prev" >> "$GITHUB_OUTPUT"
+        working-directory: video-conference-using-fisheye
+          
       - name: Generate changelog (robust)
-        id: changelog
         shell: bash
         run: |
           set -euo pipefail
