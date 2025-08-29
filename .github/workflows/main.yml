@@ -22,7 +22,7 @@ jobs:
       - name: Checkout Private Repository
         run: |
           # Clone the private repository
-          git clone https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/perseverance-tech-tw/video-conference-using-fisheye.git video-conference-using-fisheye
+          git clone --branch release https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/perseverance-tech-tw/video-conference-using-fisheye.git video-conference-using-fisheye
           
           # Change to the directory of the cloned repository
           cd video-conference-using-fisheye
@@ -142,7 +142,7 @@ jobs:
         with:
           # Pakai glob agar aman jika nama file installer berbeda tipis
           files: |
-            dist/Output/*Fisheye*${{ env.TAG_NAME }}*.exe
+            video-conference-using-fisheye/dist/Output/*Fisheye*${{ env.TAG_NAME }}*.exe
           tag_name: ${{ env.TAG_NAME }}
           body: |
             Fisheye Video Conference System ${{ env.TAG_NAME }}
@@ -164,7 +164,7 @@ jobs:
       - name: Checkout Private Repository
         run: |
           # Clone the private repository
-          git clone https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/perseverance-tech-tw/video-conference-using-fisheye.git video-conference-using-fisheye
+          git clone --branch release https://x-access-token:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/perseverance-tech-tw/video-conference-using-fisheye.git video-conference-using-fisheye
           
           # Change to the directory of the cloned repository
           cd video-conference-using-fisheye
@@ -246,27 +246,12 @@ jobs:
           echo "tag=$prev" >> "$GITHUB_OUTPUT"
         working-directory: video-conference-using-fisheye
         
-      - name: Generate changelog (robust)
-        id: changelog
-        shell: bash
-        run: |
-          set -euo pipefail
-          echo "log<<EOF" >> "$GITHUB_OUTPUT"
-          if [ -n "${{ steps.previoustag.outputs.tag }}" ]; then
-            git log ${{ steps.previoustag.outputs.tag }}..HEAD --pretty=format:"- %s (%h)"
-          else
-            git log --pretty=format:"- %s (%h)"
-          fi >> "$GITHUB_OUTPUT"
-          echo "EOF" >> "$GITHUB_OUTPUT"
-        working-directory: video-conference-using-fisheye
-        
       - name: Upload Linux Artifact to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: dist/FisheyeVideoConferenceSystem-${{ env.TAG_NAME }}-linux.7z
+          files: video-conference-using-fisheye/dist/FisheyeVideoConferenceSystem-${{ env.TAG_NAME }}-linux.7z
           tag_name: ${{ env.TAG_NAME }}
           body: |
             Fisheye Video Conference System ${{ env.TAG_NAME }}
-            ${{ steps.changelog.outputs.log }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
