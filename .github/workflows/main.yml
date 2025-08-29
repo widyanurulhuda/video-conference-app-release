@@ -29,7 +29,8 @@ jobs:
           
           # Optionally, verify that the repository is cloned
           echo "Listing contents of the cloned repository:"
-          ls -l
+          Get-ChildItem -Force -Recurse
+        shell: pwsh
           
       - name: Set up Python 3.9.13
         uses: actions/setup-python@v4
