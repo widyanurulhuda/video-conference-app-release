@@ -76,20 +76,38 @@ jobs:
       - name: Install dependencies
         shell: bash
         run: |
+          # Ensure we are in the right directory
+          cd video-conference-using-fisheye
+          
           python -m pip install --upgrade pip
           pip install --no-cache-dir -r requirements.txt
 
       - name: Build with PyInstaller
         shell: bash
-        run: pyinstaller --clean video-conference-using-fisheye.spec
+        run: 
+          
+          # Ensure we are in the right directory
+          cd video-conference-using-fisheye
+          
+          pyinstaller --clean video-conference-using-fisheye.spec
 
       - name: Install Inno Setup
         shell: powershell
-        run: choco install innosetup -y
+        run: 
+  
+          # Ensure we are in the right directory
+          cd video-conference-using-fisheye
+          
+          choco install innosetup -y
 
       - name: Build Installer
         shell: cmd
-        run: iscc dist\setup_script.iss
+        run: 
+          
+          # Ensure we are in the right directory
+          cd video-conference-using-fisheye
+          
+          iscc dist\setup_script.iss
 
       - name: Get previous tag (robust)
         id: previoustag
