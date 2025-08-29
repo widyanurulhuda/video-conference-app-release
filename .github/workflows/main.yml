@@ -50,13 +50,14 @@ jobs:
         run: echo "${{ env.TAG_NAME }}" > version.txt
 
       - name: Verify dist directory and setup_script.iss
+        shell: pwsh
         run: |
           echo "Checking dist directory..."
-          ls -R dist
-          if [ ! -f "dist/setup_script.iss" ]; then
-            echo "setup_script.iss not found!"
+          Get-ChildItem -Recurse dist
+          if (-Not (Test-Path "dist/setup_script.iss")) {
+            Write-Host "setup_script.iss not found!"
             exit 1
-          fi
+          }
 
       - name: Install dependencies
         shell: bash
