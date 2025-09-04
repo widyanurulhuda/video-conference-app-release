@@ -1,36 +1,35 @@
 # -- Project information -----------------------------------------------------
-project = 'Moil Meeting'
-copyright = '2025 Preseverance Technology , Taiwan'
-author = 'Preseverance Technology , Taiwan'
-release = '1.0'
+project = "Moil Meeting"
+author = "Preseverance Technology, Taiwan"
+copyright = "2025 Preseverance Technology, Taiwan"
+release = "1.0"
 
 # -- General configuration ---------------------------------------------------
-extensions = []
-templates_path = ['_templates']
+extensions = []  # add Sphinx extensions here if you use any (e.g. "myst_parser")
+templates_path = ["_templates"]
 exclude_patterns = []
 
 # -- Options for HTML output -------------------------------------------------
-html_theme = 'sphinx_rtd_theme'
-#html_theme = 'sphinx_rtd_theme'
-html_static_path = ['_static']
-html_css_files = ['custom.css']
+html_theme = "sphinx_rtd_theme"
 
-# pakai logo SVG di sidebar (atas)
+html_static_path = ["_static"]
+html_css_files = ["custom.css"]  # make sure _static/custom.css exists
+
+# Sidebar logo (PNG path is fine)
 html_logo = "_static/moil_meeting_app.png"
 
-# supaya tema tidak menaruh judul versi dsb
+# Theme options
 html_theme_options = {
     "logo_only": True,
-   # "display_version": False,
+    # "display_version": False,
 }
-templates_path = ['_templates']
-html_css_files = ['custom.css']
 
+# Optional: customize sidebars (these templates exist in RTD theme)
 html_sidebars = {
     "**": [
-        "sidebar-logo.html",   # custom kita
+        "sidebar-logo.html",
         "searchbox.html",
-        "localtoc.html",       # gunakan localtoc untuk RTD theme
+        "localtoc.html",
         "relations.html",
     ]
 }
