@@ -10,7 +10,7 @@ build:
     python: "3.12"
   jobs:
    pre_install:
-     - npm clean-install
+     - npm install
      - make npm-build
    post_install:
     - pip install poetry
